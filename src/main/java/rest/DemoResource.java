@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import dtos.ComboDTO;
 import dtos.PokemonDTO;
 import dtos.RandomFactDTO;
+import entities.Owner;
 import entities.User;
 
 import java.io.IOException;
@@ -68,6 +69,22 @@ public class DemoResource {
             TypedQuery<User> query = em.createQuery("select u from User u", entities.User.class);
             List<User> users = query.getResultList();
             return "[" + users.size() + "]";
+        } finally {
+            em.close();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("all/owners")
+    public List<Owner> allOwners() {
+
+        EntityManager em = EMF.createEntityManager();
+        try {
+            TypedQuery<Owner> query = em.createQuery("select o from Owner o", entities.Owner.class);
+            List<Owner> owners = query.getResultList();
+            //TODO skal det være en string den returnerer?
+            return owners;
         } finally {
             em.close();
         }

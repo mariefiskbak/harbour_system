@@ -41,11 +41,13 @@ public class Populator {
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         FacadeExample fe = FacadeExample.getFacadeExample(emf);
         fe.createOwner(new OwnerDTO(new Owner("Marie Fiskbæk", "Sdr Landevej 19 B, 3730 Nexø", "88888888")));
-        fe.createOwner(new OwnerDTO(new Owner("", "", "")));
-        fe.createOwner(new OwnerDTO(new Owner("", "", "")));
+        fe.createOwner(new OwnerDTO(new Owner("Jon Toft-Jensen", "Sdr Landevej 19 B, 3730 Nexø", "77777777")));
+        fe.createOwner(new OwnerDTO(new Owner("Per Andersen", "Rønnevej 1, 3700 Rønne", "11111111")));
     }
 
+
+
     public static void main(String[] args) {
-        populateHarbours();
+        populateOwners();
     }
 }

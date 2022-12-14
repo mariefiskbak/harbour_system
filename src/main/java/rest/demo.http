@@ -24,3 +24,7 @@ Content-Type: application/json
 {
 "deckSize": "10"
 }
+
+### Get list of all owners
+GET http://localhost:8080/harbour/api/info/all/owners
+
