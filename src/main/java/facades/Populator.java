@@ -5,9 +5,15 @@
  */
 package facades;
 
-import dtos.RenameMeDTO;
-import entities.RenameMe;
+import dtos.BoatDTO;
+import dtos.HarbourDTO;
+import dtos.OwnerDTO;
+import entities.Boat;
+import entities.Harbour;
+
 import javax.persistence.EntityManagerFactory;
+
+import entities.Owner;
 import utils.EMF_Creator;
 
 /**
@@ -15,15 +21,31 @@ import utils.EMF_Creator;
  * @author tha
  */
 public class Populator {
-    public static void populate(){
+    public static void populateHarbours(){
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         FacadeExample fe = FacadeExample.getFacadeExample(emf);
-        fe.create(new RenameMeDTO(new RenameMe("First 1", "Last 1")));
-        fe.create(new RenameMeDTO(new RenameMe("First 2", "Last 2")));
-        fe.create(new RenameMeDTO(new RenameMe("First 3", "Last 3")));
+        fe.createHarbour(new HarbourDTO(new Harbour("Rønne", "Fiskerivej 1, 3700 Rønne", 200)));
+        fe.createHarbour(new HarbourDTO(new Harbour("Nexø", "Sdr Hammer 10, 3730 Nexø", 100)));
+        fe.createHarbour(new HarbourDTO(new Harbour("Hasle", "Havnen 23, 3780 Hasle", 50)));
     }
-    
+
+    public static void populateBoats(){
+        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
+        FacadeExample fe = FacadeExample.getFacadeExample(emf);
+        fe.createBoat(new BoatDTO(new Boat("Stingray", "Dreamboat", "")));
+        fe.createBoat(new BoatDTO(new Boat("", "", "")));
+        fe.createBoat(new BoatDTO(new Boat("", "", "")));
+    }
+
+    public static void populateOwners(){
+        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
+        FacadeExample fe = FacadeExample.getFacadeExample(emf);
+        fe.createOwner(new OwnerDTO(new Owner("Marie Fiskbæk", "Sdr Landevej 19 B, 3730 Nexø", "88888888")));
+        fe.createOwner(new OwnerDTO(new Owner("", "", "")));
+        fe.createOwner(new OwnerDTO(new Owner("", "", "")));
+    }
+
     public static void main(String[] args) {
-        populate();
+        populateHarbours();
     }
 }

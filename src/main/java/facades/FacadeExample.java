@@ -1,6 +1,12 @@
 package facades;
 
+import dtos.BoatDTO;
+import dtos.HarbourDTO;
+import dtos.OwnerDTO;
 import dtos.RenameMeDTO;
+import entities.Boat;
+import entities.Harbour;
+import entities.Owner;
 import entities.RenameMe;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -40,17 +46,43 @@ public class FacadeExample {
         return emf.createEntityManager();
     }
     
-    public RenameMeDTO create(RenameMeDTO rm){
-        RenameMe rme = new RenameMe(rm.getDummyStr1(), rm.getDummyStr2());
+    public HarbourDTO createHarbour(HarbourDTO harbourDTO){
+        Harbour harbour = new Harbour(harbourDTO);
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(rme);
+            em.persist(harbour);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
-        return new RenameMeDTO(rme);
+        return new HarbourDTO(harbour);
+    }
+
+    public BoatDTO createBoat(BoatDTO boatDTO) {
+        Boat boat = new Boat(boatDTO);
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(boat);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new BoatDTO(boat);
+    }
+
+    public OwnerDTO createOwner(OwnerDTO ownerDTO) {
+        Owner owner = new Owner(ownerDTO);
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(owner);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new OwnerDTO(owner);
     }
     public RenameMeDTO getById(long id) { //throws RenameMeNotFoundException {
         EntityManager em = emf.createEntityManager();
@@ -83,5 +115,6 @@ public class FacadeExample {
         FacadeExample fe = getFacadeExample(emf);
         fe.getAll().forEach(dto->System.out.println(dto));
     }
+
 
 }
