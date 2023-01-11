@@ -28,3 +28,5 @@ Content-Type: application/json
 ### Get list of all owners
 GET http://localhost:8080/harbour/api/info/all/owners
 
+### Get list of all harbours
+GET http://localhost:8080/harbour/api/info/all/harbours
