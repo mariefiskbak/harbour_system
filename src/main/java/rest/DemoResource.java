@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import dtos.ComboDTO;
 import dtos.PokemonDTO;
 import dtos.RandomFactDTO;
+import entities.Harbour;
 import entities.Owner;
 import entities.User;
 
@@ -85,6 +86,21 @@ public class DemoResource {
             List<Owner> owners = query.getResultList();
             //TODO skal det være en string den returnerer?
             return owners;
+        } finally {
+            em.close();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("all/harbours")
+    public List<Harbour> allHarbours() {
+
+        EntityManager em = EMF.createEntityManager();
+        try {
+            TypedQuery<Harbour> query = em.createQuery("select h from Harbour h", entities.Harbour.class);
+            List<Harbour> harbours = query.getResultList();
+            return harbours;
         } finally {
             em.close();
         }
