@@ -30,3 +30,6 @@ GET http://localhost:8080/harbour/api/info/all/owners
 
 ### Get list of all harbours
 GET http://localhost:8080/harbour/api/info/all/harbours
+
+### Get list of all boats belonging to a harbour
+GET http://localhost:8080/harbour/api/info/harbour/boats/1

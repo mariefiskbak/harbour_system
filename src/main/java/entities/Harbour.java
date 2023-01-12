@@ -85,16 +85,17 @@ public class Harbour {
         this.id = id;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Harbour harbour = (Harbour) o;
-        return id.equals(harbour.id) && Objects.equals(name, harbour.name) && Objects.equals(address, harbour.address) && Objects.equals(capacity, harbour.capacity) && Objects.equals(boats, harbour.boats);
+        return id.equals(harbour.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, capacity, boats);
+        return Objects.hash(id);
     }
 }

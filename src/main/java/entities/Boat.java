@@ -4,6 +4,7 @@ import dtos.BoatDTO;
 import dtos.OwnerDTO;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -23,10 +24,11 @@ public class Boat {
     private String imageUrl;
 
     @ManyToMany(mappedBy = "boatSet")
-    private Set<Owner> ownerSet;
+    private Set<Owner> ownerSet = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "harbour_id", nullable = false)
+
     private Harbour harbour;
 
     public Boat() {
@@ -92,11 +94,11 @@ public class Boat {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Boat boat = (Boat) o;
-        return Objects.equals(id, boat.id) && Objects.equals(brand, boat.brand) && Objects.equals(name, boat.name) && Objects.equals(imageUrl, boat.imageUrl) && Objects.equals(ownerSet, boat.ownerSet) && Objects.equals(harbour, boat.harbour);
+        return id.equals(boat.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, brand, name, imageUrl, ownerSet, harbour);
+        return Objects.hash(id);
     }
 }

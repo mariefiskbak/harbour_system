@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import dtos.ComboDTO;
 import dtos.PokemonDTO;
 import dtos.RandomFactDTO;
+import entities.Boat;
 import entities.Harbour;
 import entities.Owner;
 import entities.User;
@@ -101,6 +102,24 @@ public class DemoResource {
             TypedQuery<Harbour> query = em.createQuery("select h from Harbour h", entities.Harbour.class);
             List<Harbour> harbours = query.getResultList();
             return harbours;
+        } finally {
+            em.close();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/harbour/boats/{harbourId}")
+    public List<Boat> harbourBoats(@PathParam("harbourId") Long harbourId) {
+
+        EntityManager em = EMF.createEntityManager();
+        try {
+//            TypedQuery<Boat> query = em.createQuery("select b from Boat b where b.harbour = :harbourId", entities.Boat.class)
+//                    .setParameter("harbourId", harbourId);
+//            List<Boat> boats = query.getResultList();
+            List<Boat> boats = em.createQuery("select b from Boat b where b.harbour = :harbourId", entities.Boat.class)
+                    .setParameter("harbourId", harbourId).getResultList();
+            return boats;
         } finally {
             em.close();
         }
