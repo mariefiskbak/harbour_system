@@ -4,10 +4,7 @@ import dtos.BoatDTO;
 import dtos.OwnerDTO;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "boat")
@@ -28,31 +25,31 @@ public class Boat {
 
     @ManyToOne
     @JoinColumn(name = "harbour_id", nullable = false)
-
     private Harbour harbour;
 
     public Boat() {
     }
 
-    public Boat(String brand, String name, String imageUrl) {
+    public Boat(String brand, String name, String imageUrl, Harbour harbour) {
         this.brand = brand;
         this.name = name;
         this.imageUrl = imageUrl;
+        harbour.addBoatsToSet(this);
     }
 
     public Boat(BoatDTO boatDTO) {
         this.brand = boatDTO.getBrand();
         this.name = boatDTO.getName();
         this.imageUrl = boatDTO.getImageUrl();
-        Set<Owner> owners = null;
-        Set<OwnerDTO> ownerDTOS = boatDTO.getOwnerSet();
-        if (ownerDTOS != null) {
-            for (OwnerDTO ownerDTO : ownerDTOS) {
-                owners.add(new Owner(ownerDTO));
-            }
-        }
-        this.ownerSet = owners;
-        this.harbour = new Harbour(boatDTO.getHarbourDTO());
+//        Set<Owner> owners = new HashSet<>();
+//        Set<OwnerDTO> ownerDTOS = boatDTO.getOwnerSet();
+//        if (ownerDTOS != null) {
+//            for (OwnerDTO ownerDTO : ownerDTOS) {
+//                owners.add(new Owner(ownerDTO));
+//            }
+//        }
+//        this.ownerSet = owners;
+//        this.harbour = new Harbour(boatDTO.getHarbour());
 
     }
 
@@ -87,6 +84,17 @@ public class Boat {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<String> getOwnersAsStrings() {
+        if(ownerSet.isEmpty()) {
+            return null;
+        }
+        Set<String> ownersAsStrings = new HashSet<>();
+        ownerSet.forEach((owner) -> {
+            ownersAsStrings.add("" + owner.getId());
+        });
+        return ownersAsStrings;
     }
 
     @Override

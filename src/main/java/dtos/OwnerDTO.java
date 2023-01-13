@@ -4,6 +4,7 @@ import entities.Boat;
 import entities.Owner;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class OwnerDTO implements Serializable {
         this.name = owner.getName();
         this.address = owner.getAddress();
         this.phone = owner.getPhone();
-        Set<BoatDTO> boatDTOS = null;
+        Set<BoatDTO> boatDTOS = new HashSet<>();
         Set<Boat> boats = owner.getBoatSet();
         if (boats != null) {
             for (Boat boat : boats) {

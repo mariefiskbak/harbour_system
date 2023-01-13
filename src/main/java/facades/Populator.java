@@ -29,13 +29,13 @@ public class Populator {
         fe.createHarbour(new HarbourDTO(new Harbour("Hasle", "Havnen 23, 3780 Hasle", 50)));
     }
 
-    public static void populateBoats(){
-        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
-        FacadeExample fe = FacadeExample.getFacadeExample(emf);
-        fe.createBoat(new BoatDTO(new Boat("Stingray", "Dreamboat", "")));
-        fe.createBoat(new BoatDTO(new Boat("", "", "")));
-        fe.createBoat(new BoatDTO(new Boat("", "", "")));
-    }
+//    public static void populateBoats(){
+//        EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
+//        FacadeExample fe = FacadeExample.getFacadeExample(emf);
+//        fe.createBoat(new BoatDTO(new Boat("Stingray", "Dreamboat", "")));
+//        fe.createBoat(new BoatDTO(new Boat("", "", "")));
+//        fe.createBoat(new BoatDTO(new Boat("", "", "")));
+//    }
 
     public static void populateOwners(){
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();

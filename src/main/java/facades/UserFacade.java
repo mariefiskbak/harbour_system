@@ -1,12 +1,18 @@
 package facades;
 
-import entities.Role;
-import entities.User;
+import dtos.BoatDTO;
+import dtos.HarbourDTO;
+import dtos.OwnerDTO;
+import entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 import security.errorhandling.AuthenticationException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lam@cphbusiness.dk
@@ -84,5 +90,58 @@ public class UserFacade {
         em.persist(user);
         em.getTransaction().commit();
         return createdUser;
+    }
+
+    public List<BoatDTO.SimpleHarbourDTO> getAllHarbours() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Harbour> query = em.createQuery("select h from Harbour h", entities.Harbour.class);
+            List<Harbour> harbours = query.getResultList();
+            //TODO lav som metode inde i Harbour
+            List<BoatDTO.SimpleHarbourDTO> harbourDTOList = new ArrayList<>();
+            for (Harbour harbour : harbours) {
+                BoatDTO.SimpleHarbourDTO harbourDTO = new BoatDTO.SimpleHarbourDTO(harbour);
+                harbourDTOList.add(harbourDTO);
+            }
+            return harbourDTOList;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<BoatDTO> getBoatsFromHarbour(int harbourId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Harbour harbour = em.createQuery("select h from Harbour h where h.id = :harbourId", entities.Harbour.class)
+                    .setParameter("harbourId", harbourId).getSingleResult();
+            List<Boat> boats = em.createQuery("select b from Boat b where b.harbour = :harbour", entities.Boat.class)
+                    .setParameter("harbour", harbour).getResultList();
+            //TODO lav som metode inde i Boats
+            List<BoatDTO> boatDTOList = new ArrayList<>();
+            for (Boat boat : boats) {
+                BoatDTO boatDTO = new BoatDTO(boat);
+                boatDTOList.add(boatDTO);
+            }
+            return boatDTOList;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<OwnerDTO> getAllOwners() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Owner> query = em.createQuery("select o from Owner o", entities.Owner.class);
+            List<Owner> owners = query.getResultList();
+            //TODO lav som metode inde i Owner
+            List<OwnerDTO> ownerDTOList = new ArrayList<>();
+            for (Owner owner : owners) {
+                OwnerDTO ownerDTO = new OwnerDTO(owner);
+                ownerDTOList.add(ownerDTO);
+            }
+            return ownerDTOList;
+        } finally {
+            em.close();
+        }
     }
 }

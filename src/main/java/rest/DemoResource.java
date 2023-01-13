@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dtos.ComboDTO;
+import dtos.HarbourDTO;
 import dtos.PokemonDTO;
 import dtos.RandomFactDTO;
 import entities.Boat;
@@ -79,50 +80,22 @@ public class DemoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all/owners")
-    public List<Owner> allOwners() {
-
-        EntityManager em = EMF.createEntityManager();
-        try {
-            TypedQuery<Owner> query = em.createQuery("select o from Owner o", entities.Owner.class);
-            List<Owner> owners = query.getResultList();
-            //TODO skal det være en string den returnerer?
-            return owners;
-        } finally {
-            em.close();
-        }
+    public String allOwners() {
+        return GSON.toJson(FACADE.getAllOwners());
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all/harbours")
-    public List<Harbour> allHarbours() {
-
-        EntityManager em = EMF.createEntityManager();
-        try {
-            TypedQuery<Harbour> query = em.createQuery("select h from Harbour h", entities.Harbour.class);
-            List<Harbour> harbours = query.getResultList();
-            return harbours;
-        } finally {
-            em.close();
-        }
+    public String allHarbours() {
+        return GSON.toJson(FACADE.getAllHarbours());
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/harbour/boats/{harbourId}")
-    public List<Boat> harbourBoats(@PathParam("harbourId") Long harbourId) {
-
-        EntityManager em = EMF.createEntityManager();
-        try {
-//            TypedQuery<Boat> query = em.createQuery("select b from Boat b where b.harbour = :harbourId", entities.Boat.class)
-//                    .setParameter("harbourId", harbourId);
-//            List<Boat> boats = query.getResultList();
-            List<Boat> boats = em.createQuery("select b from Boat b where b.harbour = :harbourId", entities.Boat.class)
-                    .setParameter("harbourId", harbourId).getResultList();
-            return boats;
-        } finally {
-            em.close();
-        }
+    public String harbourBoats(@PathParam("harbourId") int harbourId) {
+        return GSON.toJson(FACADE.getBoatsFromHarbour(harbourId));
     }
 
     @GET
@@ -198,7 +171,7 @@ public class DemoResource {
         List<Future<PokemonDTO>> futuresPKMN = new ArrayList<>();
         List<Future<RandomFactDTO>> futuresRNDF = new ArrayList<>();
         Future<PokemonDTO> futurePKMN;
-        for (int i = 0; i <= size-1; i++) {
+        for (int i = 0; i <= size - 1; i++) {
             String finalI = String.valueOf((int) (Math.random() * 904 + 1));
             futurePKMN = executor.submit(() -> PokemonFetcher.getData(finalI));
             futuresPKMN.add(futurePKMN);
@@ -206,7 +179,7 @@ public class DemoResource {
             futuresRNDF.add(futureRNDF);
         }
 
-        for (int i = 0; i <= size-1; i++) {
+        for (int i = 0; i <= size - 1; i++) {
             pokemonDTO = futuresPKMN.get(i).get();
             randomFactDTO = futuresRNDF.get(i).get();
             comboDTOs.add(new ComboDTO(pokemonDTO, randomFactDTO));
