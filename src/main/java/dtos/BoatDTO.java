@@ -2,10 +2,8 @@ package dtos;
 
 import entities.Boat;
 import entities.Harbour;
-import entities.Owner;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,6 +11,7 @@ import java.util.Set;
  * A DTO for the {@link entities.Boat} entity
  */
 public class BoatDTO implements Serializable {
+    private final Long id;
     private final String brand;
     private final String name;
     private final String imageUrl;
@@ -20,7 +19,8 @@ public class BoatDTO implements Serializable {
 //    private final HarbourDTO harbourDTO;
     private final SimpleHarbourDTO harbour;
 
-    public BoatDTO(String brand, String name, String imageUrl, Set<String> ownerSet, SimpleHarbourDTO harbour) {
+    public BoatDTO(Long id, String brand, String name, String imageUrl, Set<String> ownerSet, SimpleHarbourDTO harbour) {
+        this.id = id;
         this.brand = brand;
         this.name = name;
         this.imageUrl = imageUrl;
@@ -30,6 +30,7 @@ public class BoatDTO implements Serializable {
     }
 
     public BoatDTO(Boat boat) {
+        this.id = boat.getId();
         this.brand = boat.getBrand();
         this.name = boat.getName();
         this.imageUrl = boat.getImageUrl();
